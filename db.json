@@ -1,0 +1,60 @@
+{
+    "invoiveData": [
+        {
+          "invoice_number": "#RT3080",
+          "due_date": "19 Aug 2021",
+          "customer": "Jensen Huang",
+          "total_amount": "£1,800.90",
+          "status": "Paid",
+          "id": "4259"
+        },
+        {
+          "invoice_number": "#XM9141",
+          "due_date": "20 Sep 2021",
+          "customer": "Alex Grim",
+          "total_amount": "£556.00",
+          "status": "Pending",
+          "id": "4912"
+        },
+        {
+          "invoice_number": "#RG0314",
+          "due_date": "01 Oct 2021",
+          "customer": "John Morrison",
+          "total_amount": "£14,002.33",
+          "status": "Paid",
+          "id": "c711"
+        },
+        {
+          "invoice_number": "#RT2080",
+          "due_date": "12 Oct 2021",
+          "customer": "Alysa Werner",
+          "total_amount": "£102.04",
+          "status": "Pending",
+          "id": "2e45"
+        },
+        {
+          "invoice_number": "AA1449",
+          "due_date": "14 Oct 2021",
+          "customer": "Mellisa Clarke",
+          "total_amount": "£4,032.33",
+          "status": "Pending",
+          "id": "f9e5"
+        },
+        {
+          "invoice_number": "TY9141",
+          "due_date": "31 Oct 2021",
+          "customer": "Thomas Wayne",
+          "total_amount": "£ 6,155.91",
+          "status": "Pending",
+          "id": "e69c"
+        },
+        {
+          "invoice_number": "#V2353",
+          "due_date": "12 Nov 2021",
+          "customer": "Anita Wainwright",
+          "total_amount": "£ 3,102.04",
+          "status": "Draft",
+          "id": "1c21"
+        }
+      ]
+}
