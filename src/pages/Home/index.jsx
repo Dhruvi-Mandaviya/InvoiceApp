@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const invoiceData = [
   {
@@ -74,6 +75,7 @@ export default function Home() {
             </button>
           </div>
         </div>
+        <Link to={`invoice_number${invoiceData.invoice_number}`}>
         <ul role="list" className="divide-y divide-gray-100 border rounded-lg p-10 m-10 text-white">
           {invoiceData.map(data => (
             <li key={data.invoice_number} className="flex justify-between py-5 rounded-md gap-5 text-white">
@@ -102,6 +104,7 @@ export default function Home() {
             </li>
           ))}
         </ul>
+        </Link>
       </main>
     </>
   );
