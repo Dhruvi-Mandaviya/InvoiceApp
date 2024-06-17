@@ -1,7 +1,7 @@
 {
-  "name": "todo",
+  "name": "invoice",
   "version": "0.0.1",
-  "description": "todo application",
+  "description": "Invoice application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,11 +10,11 @@
     "eslint": "eslint . --fix",
     "prettier": "prettier . --write",
     "prepare": "husky install",
-    "start:server": "json-server --watch db.json"
+    "start:server": "json-server --watch db.json ./node_modules/json-server-auth -p 3000"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dhruvi-Mandaviya/todo-App.git"
+    "url": "https://github.com/Dhruvi-Mandaviya/InvoiceApp.git"
   },
   "keywords": [
     "todo",
@@ -49,6 +49,10 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.4",
+    "@heroicons/react": "^2.1.3",
+    "@iconify/icons-heroicons-solid": "^1.2.6",
+    "@react-icons/all-files": "^4.1.0",
     "axios": "^1.7.2",
     "json-server": "^1.0.0-beta.0",
     "react": "^18.2.0",
