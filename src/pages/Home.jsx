@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { InvoiceContext } from '../context/invoiceContext';
 import { Link } from 'react-router-dom';
 
-export default function Home() {
+ function Home() {
   const invoiceData = useContext(InvoiceContext);
   const [invoices, setInvoices] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,7 +24,7 @@ export default function Home() {
 
   const handleFilterChange = (status) => {
     setFilter(status);
-    setShowFilterDropdown(false);  // Hide dropdown after selecting filter
+    setShowFilterDropdown(false); 
   };
 
   const filteredInvoices = invoices.filter(invoice => {
@@ -139,3 +139,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

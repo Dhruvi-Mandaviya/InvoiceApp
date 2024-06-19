@@ -1,31 +1,32 @@
-import React, { Fragment, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useInvoiceData } from '../context/invoiceContext';
-import {
-  Dialog,
-  DialogPanel,
-  Radio,
-  RadioGroup,
-  Transition,
-  TransitionChild,
-} from '@headlessui/react';
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { StarIcon } from '@heroicons/react/20/solid';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
-const InvoiceDetail = () => {
+function InvoiceDetail() {
   const [open, setOpen] = useState(false);
   const { id } = useParams();
   const invoiceData = useInvoiceData();
-  const invoice = invoiceData.find(inv => inv.id === id);
+  const invoice = useMemo(() => invoiceData.find(inv => inv.id === id),[invoiceData, id]);
+  const [showsavemessage, setShowSaveMessage] = useState(false);
 
   // console.log(invoice);
 
+  const handleSave = () => {
+    setShowSaveMessage(true);
+    setTimeout(() => {
+      setShowSaveMessage(false);
+    }, 3000);
+  };
+
   const toggleCart = () => {
     setOpen(val => !val);
+  };
+
+  const saveClose = () => {
+    toggleCart();
+    handleSave();
   };
 
   if (!invoice) {
@@ -35,6 +36,11 @@ const InvoiceDetail = () => {
   return (
     <>
       <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-6 gap-4">
+        {showsavemessage && (
+          <div className="bg-green-500 text-white px-4 py-2 rounded-md shadow-md">
+            Saved successfully!
+          </div>
+        )}
         <div className="max-w-3xl w-full h-20 bg-gray-700 shadow sm:rounded-lg p-6 flex justify-evenly">
           <div>
             {' '}
@@ -57,6 +63,7 @@ const InvoiceDetail = () => {
             <button
               type="submit"
               className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={handleSave}
             >
               Save
             </button>
@@ -106,8 +113,8 @@ const InvoiceDetail = () => {
                 leaveFrom="opacity-100 translate-y-0 md:scale-100"
                 leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
               >
-                <DialogPanel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
-                  <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                <DialogPanel className="flex w-full justify-center transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                  <div className="relative flex max-w-5xl items-center overflow-hidden bg-gray-900 text-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                     <button
                       type="button"
                       className="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8"
@@ -118,18 +125,15 @@ const InvoiceDetail = () => {
                     </button>
 
                     <div className="border-b border-gray-900/10 pb-12">
-                      <h2 className="text-3xl font-bold leading-7 text-gray-900">
+                      <h2 className="text-3xl font-bold leading-7">
                         Edit {invoice.invoice_number}
                       </h2>
-                      <p className="pt-6 text-sm leading-6 text-blue-700">Bill From</p>
+                      <p className="pt-6 text-sm leading-6 text-blue-700">Bill To</p>
 
-                      <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                      <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 text-sm font-normal">
                         {/*---First Name---*/}
                         <div className="sm:col-span-full">
-                          <label
-                            htmlFor="first-name"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
+                          <label htmlFor="first-name" className="block  leading-6">
                             Enter Name
                           </label>
                           <div className="mt-2">
@@ -138,16 +142,13 @@ const InvoiceDetail = () => {
                               name="first-name"
                               id="first-name"
                               autoComplete="given-name"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full rounded-sm py-1.5 bg-gray-500 text-black sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
                         {/*---Street Address---*/}
                         <div className="col-span-full">
-                          <label
-                            htmlFor="street-address"
-                            className="block text-sm font-normal leading-6 text-gray-900"
-                          >
+                          <label htmlFor="street-address" className="block leading-6">
                             Street address
                           </label>
                           <div className="mt-2">
@@ -156,16 +157,13 @@ const InvoiceDetail = () => {
                               name="street-address"
                               id="street-address"
                               autoComplete="street-address"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full rounded-sm py-1.5 bg-gray-500 text-black sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
                         {/*---City---*/}
                         <div className="sm:col-span-2 sm:col-start-1">
-                          <label
-                            htmlFor="city"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
+                          <label htmlFor="city" className="block leading-6">
                             City
                           </label>
                           <div className="mt-2">
@@ -174,17 +172,14 @@ const InvoiceDetail = () => {
                               name="city"
                               id="city"
                               autoComplete="address-level2"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full rounded-sm py-1.5 bg-gray-500 text-black sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
                         {/*---Postal Code---*/}
                         <div className="sm:col-span-2">
-                          <label
-                            htmlFor="postal-code"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            ZIP / Postal code
+                          <label htmlFor="postal-code" className="block leading-6">
+                            Postal code
                           </label>
                           <div className="mt-2">
                             <input
@@ -192,16 +187,13 @@ const InvoiceDetail = () => {
                               name="postal-code"
                               id="postal-code"
                               autoComplete="postal-code"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full rounded-sm py-1.5 bg-gray-500 text-black sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
                         {/*---Country---*/}
                         <div className="sm:col-span-2">
-                          <label
-                            htmlFor="country"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
+                          <label htmlFor="country" className="block leading-6">
                             Country
                           </label>
                           <div className="mt-2">
@@ -209,21 +201,20 @@ const InvoiceDetail = () => {
                               id="country"
                               name="country"
                               autoComplete="country-name"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                              className="block w-full rounded-sm py-1.5 bg-gray-500 text-black sm:text-sm sm:leading-6"
                             >
+                              <option>India</option>
                               <option>United States</option>
                               <option>Canada</option>
                               <option>Mexico</option>
+                              <option>Duabi</option>
                             </select>
                           </div>
                         </div>
-                        <p className="text-sm leading-6 text-blue-700">Bill To</p>
+                        <p className="text-sm leading-6 text-blue-700">Bill From</p>
                         {/*---First Name---*/}
                         <div className="sm:col-span-full">
-                          <label
-                            htmlFor="first-name"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
+                          <label htmlFor="first-name" className="block leading-6">
                             Enter Name
                           </label>
                           <div className="mt-2">
@@ -232,16 +223,13 @@ const InvoiceDetail = () => {
                               name="first-name"
                               id="first-name"
                               autoComplete="given-name"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full rounded-sm py-1.5 bg-gray-500 text-black sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
                         {/*---Email Address---*/}
                         <div className="sm:col-span-full">
-                          <label
-                            htmlFor="email"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
+                          <label htmlFor="email" className="block leading-6">
                             Email address
                           </label>
                           <div className="mt-2">
@@ -250,10 +238,26 @@ const InvoiceDetail = () => {
                               name="email"
                               type="email"
                               autoComplete="email"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full rounded-sm py-1.5 bg-gray-500 text-black sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
+                      </div>
+                      <div className="mt-6 flex items-center justify-end gap-x-6">
+                        <button
+                          type="button"
+                          className="text-sm font-semibold leading-6 text-white"
+                          onClick={toggleCart}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                          onClick={saveClose}
+                        >
+                          Save
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -265,6 +269,6 @@ const InvoiceDetail = () => {
       </Transition>
     </>
   );
-};
+}
 
 export default InvoiceDetail;
